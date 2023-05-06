@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.073c9b0a.css",
-    "main.js": "/static/js/main.e8a16fc5.js",
-    "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/index.html",
-    "main.073c9b0a.css.map": "/static/css/main.073c9b0a.css.map",
-    "main.e8a16fc5.js.map": "/static/js/main.e8a16fc5.js.map"
+    "main.css": "/Mancala-Board-Game/static/css/main.073c9b0a.css",
+    "main.js": "/Mancala-Board-Game/static/js/main.e964a28b.js",
+    "static/media/logo.svg": "/Mancala-Board-Game/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/Mancala-Board-Game/index.html",
+    "main.073c9b0a.css.map": "/Mancala-Board-Game/static/css/main.073c9b0a.css.map",
+    "main.e964a28b.js.map": "/Mancala-Board-Game/static/js/main.e964a28b.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.e8a16fc5.js"
+    "static/js/main.e964a28b.js"
   ]
 }
