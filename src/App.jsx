@@ -178,7 +178,7 @@ export default function App() {
 
           <div className="game-control">
             <button className={`icon-button ${numTurn < 1 ? "disable" : ""}`} onClick={handleUndo}><BackwardOutlined/></button>
-            <button className="restart-button" onClick={handleReload}>Restart</button>
+            <button className="restart-button" onClick={handleReload}><span>Restart</span></button>
             <button className="icon-button disable" onClick={handleUndo}><ForwardOutlined /></button>
           </div>
         </div>
@@ -216,6 +216,10 @@ export default function App() {
             <div className="mancala" key={index}></div>
           ))}
         </div>
+      </div>
+
+      <div className="rotation">
+        <img src="../public/arrow.png"></img>
       </div>
 
     </div>

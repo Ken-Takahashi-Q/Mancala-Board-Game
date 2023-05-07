@@ -1,5 +1,6 @@
 #root {
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
@@ -13,6 +14,7 @@
   padding: 1em;
   width: 100%;
   gap: 0.5em;
+  z-index: 1;
 
   .side-left, .side-right {
     display: flex;
@@ -250,64 +252,42 @@ button {
   border-radius: 1em;
 }
 
-// spinning arrow
-@keyframes clockwiseSpin {
-  from  {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }	
-}
-
-@keyframes antiClockwiseSpin {
-  from  {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }	
-}
-
-.clockwiseSpin {
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-name: clockwiseSpin;
-  animation-timing-function: linear;
-}
-
-.antiClockwiseSpin {
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-name: antiClockwiseSpin;
-  animation-timing-function: linear;
-}
-
-.wrapper {
+.rotation {
   display: flex;
-  justify-content: space-between;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.box {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  width: 200px;
-  height: 200px;
-  margin-right: 20px;
-  background-color: red;
-  color: white;
+  align-items: center;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  transform: scaleX(-1);
+  z-index: -1;
+
+  img {
+    width: 60%;
+    height: 60%;
+    filter: invert(1);
+    animation: rotation 10s infinite linear;
+  }
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
 }
 
 @media (max-width: 800px) {
   .boardgame {
     flex-direction: column-reverse;
+    padding: 0;
     transition: 0.5s all;
 
     .game-area {
       flex-direction: row;
+      gap: 0.5em;
 
       .side-opponent, .side-player {
         flex-direction: column-reverse;
@@ -315,9 +295,6 @@ button {
 
       .turn-label {
         width: 6em;
-        h2 {
-          font-size: 1.3em;
-        }
       }
 
       .game-control {
@@ -326,8 +303,8 @@ button {
     }
   }
   .each-box {
-    width: 4em;
-    height: 4em;
+    width: 3.5em;
+    height: 3.5em;
 
     .mancala {
       width: 1em;
@@ -338,8 +315,14 @@ button {
   }
   button {
     padding: 0.5em 1em;
+    span {
+      font-size: 0.8em;
+    }
+  }
+  .restart-button {
+    padding: 0.5em 1em;
   }
   h1, h2, h3 {
-    font-size: 1.2em;
+    font-size: 1em;
   }
 }
