@@ -122,7 +122,6 @@ export default function App() {
           ) : (
             <h2>{isPlayerTurn ? "Your" : "Opponent's"} turn</h2>
           )}
-          <h3>{endTurn ? "endTurn": "not end"}</h3>
         </div>
 
         <div className="reload">
