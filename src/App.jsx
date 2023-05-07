@@ -62,16 +62,24 @@ export default function App() {
   };
 
   useEffect(() => {
-    // console.log(player)
-    // console.log(opponent)
-    console.log(endTurn)
-    console.log("------------")
-    if (Object.values(player).every((value) => value === 0)) {
-      setWinner("Player");
-    } else if (Object.values(opponent).every((value) => value === 0)) {
-      setWinner("Opponent");
+    if (endTurn) {
+      if (Object.values(player).every((value) => value === 0)) {
+        setWinner("You");
+      } else if (Object.values(opponent).every((value) => value === 0)) {
+        setWinner("Opponent");
+      }
     }
   }, [endTurn])
+
+  const handleReload = () => {
+    setPlayer({"p1": startPieces, "p2": startPieces, "p3": startPieces});
+    setOpponent({"o1": startPieces, "o2": startPieces, "o3": startPieces});
+    setLeftBox(0);
+    setRightBox(0);
+    setIsPlayerTurn(true);
+    setWinner("");
+    setEndTurn(false);
+  }
 
   return (
     <div className="boardgame">
@@ -112,12 +120,13 @@ export default function App() {
           {winner ? (
             <h1>{winner} won!</h1>
           ) : (
-            <h2>{isPlayerTurn ? "Player" : "Opponent"}'s turn</h2>
+            <h2>{isPlayerTurn ? "Your" : "Opponent's"} turn</h2>
           )}
+          <h3>{endTurn ? "endTurn": "not end"}</h3>
         </div>
 
         <div className="reload">
-          <button onClick={() => window.location.reload()}>Restart</button>
+          <button onClick={handleReload}>Restart</button>
         </div>
 
         <div className={`side-player ${isPlayerTurn ? "" : "disable"}`}>

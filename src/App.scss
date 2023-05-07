@@ -158,6 +158,11 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
   }
+
+  &.piece-10, &.piece-11, &.piece-12 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
 }
 
 h1, h2 {
