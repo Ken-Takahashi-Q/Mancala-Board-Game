@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.scss'
+import { BackwardOutlined, ForwardOutlined } from "@ant-design/icons"
 
 export default function App() {
   const startPieces = 3;
@@ -11,11 +12,24 @@ export default function App() {
   const [rightBox, setRightBox] = useState(0);
   const playingSeq = ["p1", "p2", "p3", "rightBox", "o1", "o2", "o3", "leftBox"];
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
-  const [winner, setWinner] = useState("");
+  const [winner, setWinner] = useState(false);
   const [endTurn, setEndTurn] = useState(false);
+
+  const [gameHistory, setGameHistory] = useState([{
+    player: player,
+    opponent: opponent,
+    leftBox: leftBox,
+    rightBox: rightBox,
+    isPlayerTurn: isPlayerTurn,
+    winner: winner,
+    endTurn: endTurn
+  }]);
+  const [numTurn, setNumTurn] = useState(0);
+  const delayTime = 500;
 
   const handleBoxClick = (boxName) => {
     setEndTurn(false);
+    setNumTurn(numTurn + 1);
     const findPosition = (boxName) => playingSeq.indexOf(boxName);
     const position = findPosition(boxName);
   
@@ -49,7 +63,7 @@ export default function App() {
       }
   
       i++;
-    }, 500);
+    }, delayTime);
 
     const addTurnDelay = setInterval(() => {
       if (!(playingSeq[(position + selectedBox) % 8]).includes("Box")) {
@@ -57,8 +71,21 @@ export default function App() {
       }
       clearInterval(addTurnDelay);
       setEndTurn(true);
-    }, 500 * (selectedBox + 1));
+    }, delayTime * (selectedBox + 1));
 
+    setGameHistory(prevState => {
+      const newHistory = [...prevState];
+      newHistory[numTurn] = {
+        player: player,
+        opponent: opponent,
+        leftBox: leftBox,
+        rightBox: rightBox,
+        isPlayerTurn: isPlayerTurn,
+        winner: winner,
+        endTurn: endTurn
+      };
+      return newHistory;
+    });
   };
 
   useEffect(() => {
@@ -79,7 +106,31 @@ export default function App() {
     setIsPlayerTurn(true);
     setWinner("");
     setEndTurn(false);
+    setNumTurn(0);
   }
+
+  const handleUndo = () => {
+    setNumTurn(numTurn-1)
+    let { player, opponent, leftBox, rightBox, isPlayerTurn, winner, endTurn } = gameHistory[numTurn-1]
+    setPlayer({"p1": player["p1"], "p2": player["p2"], "p3": player["p3"]});
+    setOpponent({"o1": opponent["o1"], "o2": opponent["o2"], "o3": opponent["o3"]});
+    setLeftBox(leftBox);
+    setRightBox(rightBox);
+    setIsPlayerTurn(isPlayerTurn);
+    setWinner(winner);
+    setEndTurn(endTurn);
+  }
+
+  // const handleRedo = () => {
+  //   let { player, opponent, leftBox, rightBox, isPlayerTurn, winner, endTurn } = gameHistory[numTurn]
+  //   setPlayer({"p1": player["p1"], "p2": player["p2"], "p3": player["p3"]});
+  //   setOpponent({"o1": opponent["o1"], "o2": opponent["o2"], "o3": opponent["o3"]});
+  //   setLeftBox(leftBox);
+  //   setRightBox(rightBox);
+  //   setIsPlayerTurn(isPlayerTurn);
+  //   setWinner(winner);
+  //   setEndTurn(endTurn);
+  // }
 
   return (
     <div className="boardgame">
@@ -92,7 +143,7 @@ export default function App() {
       </div>
 
       <div className="game-area">
-        <div className={`side-opponent ${isPlayerTurn ? "disable" : ""}`}>
+        <div className={`side-opponent ${winner ? "disable" : isPlayerTurn ? "disable" : ""}`}>
           <div className={`side-opponent-box box-3`} onClick={() => handleBoxClick("o3")}>
             <div className={`each-box piece-${opponent["o3"]}`}>
               {Array.from({ length: opponent["o3"] }, (_, index) => (
@@ -116,19 +167,23 @@ export default function App() {
           </div>
         </div>
 
-        <div className="turn-label" key={isPlayerTurn}>
-          {winner ? (
-            <h1>{winner} won!</h1>
-          ) : (
-            <h2>{isPlayerTurn ? "Your" : "Opponent's"} turn</h2>
-          )}
+        <div className="turn-info" key={isPlayerTurn}>
+          <div className="turn-label" key={isPlayerTurn}>
+            {winner ? (
+              <h1>{winner} won!</h1>
+            ) : (
+              <h2>{isPlayerTurn ? "Your" : "Opponent's"} turn</h2>
+            )}
+          </div>
+
+          <div className="game-control">
+            <button className={`icon-button ${numTurn < 1 ? "disable" : ""}`} onClick={handleUndo}><BackwardOutlined/></button>
+            <button className="restart-button" onClick={handleReload}>Restart</button>
+            <button className="icon-button disable" onClick={handleUndo}><ForwardOutlined /></button>
+          </div>
         </div>
 
-        <div className="reload">
-          <button onClick={handleReload}>Restart</button>
-        </div>
-
-        <div className={`side-player ${isPlayerTurn ? "" : "disable"}`}>
+        <div className={`side-player ${winner ? "disable" : isPlayerTurn ? "" : "disable"}`}>
           <div className="side-player-box box-1" onClick={() => handleBoxClick("p1")}>
             <div className={`each-box piece-${player["p1"]}`}>
               {Array.from({ length: player["p1"] }, (_, index) => (

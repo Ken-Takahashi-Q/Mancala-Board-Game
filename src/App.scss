@@ -1,5 +1,9 @@
 #root {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  transition: 0.5s all;
 }
 
 .boardgame {
@@ -7,6 +11,7 @@
   justify-content: center;
   align-items: center;
   padding: 1em;
+  width: 100%;
   gap: 0.5em;
 
   .side-left, .side-right {
@@ -21,7 +26,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2em;
+    gap: 1em;
 
     .side-player, .side-opponent {
       display: flex;
@@ -163,6 +168,11 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(4, 1fr);
   }
+
+  &.piece-13, &.piece-14, &.piece-15 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
 }
 
 h1, h2 {
@@ -178,28 +188,48 @@ h2 {
   font-weight: 300;
 }
 
-.turn-label {
-  opacity: 0;
-  animation: fade-up 1s ease-out forwards;
+.turn-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1em;
 
-  @keyframes fade-up {
-    from {
-      transform: translateY(30%);
-      opacity: 0;
+  .turn-label {
+    opacity: 0;
+    animation: fade-up 1s ease-out forwards;
+
+    @keyframes fade-up {
+      from {
+        transform: translateY(30%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0%);
+        opacity: 1;
+      }
     }
+  }
 
-    to {
-      transform: translateY(0%);
-      opacity: 1;
+  .game-control {
+    display: flex;
+    gap: 1em;
+
+    .icon-button {
+      width: 2.3em;
+      border-radius: 3em;
     }
   }
 }
 
 button {
-  padding: 0.5em 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   border: 2px solid white;
-  border-radius: 1em;
   transition: 0.3s all;
 
   &:hover {
@@ -207,5 +237,109 @@ button {
     transition: 0.3s all;
     cursor: pointer;
   }
+
+  &.disable {
+    transition: 0.3s all;
+    visibility: hidden;
+    // cursor: not-allowed;
+    pointer-events: none !important;
+  }
+}
+.restart-button {
+  padding: 0.5em 2em;
+  border-radius: 1em;
 }
 
+// spinning arrow
+@keyframes clockwiseSpin {
+  from  {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }	
+}
+
+@keyframes antiClockwiseSpin {
+  from  {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }	
+}
+
+.clockwiseSpin {
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-name: clockwiseSpin;
+  animation-timing-function: linear;
+}
+
+.antiClockwiseSpin {
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-name: antiClockwiseSpin;
+  animation-timing-function: linear;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  margin-right: 20px;
+  background-color: red;
+  color: white;
+}
+
+@media (max-width: 800px) {
+  .boardgame {
+    flex-direction: column-reverse;
+    transition: 0.5s all;
+
+    .game-area {
+      flex-direction: row;
+
+      .side-opponent, .side-player {
+        flex-direction: column-reverse;
+      }
+
+      .turn-label {
+        width: 6em;
+        h2 {
+          font-size: 1.3em;
+        }
+      }
+
+      .game-control {
+        flex-direction: column-reverse;
+      }
+    }
+  }
+  .each-box {
+    width: 4em;
+    height: 4em;
+
+    .mancala {
+      width: 1em;
+      height: 1em;
+      border-radius: 1em;
+    }
+  
+  }
+  button {
+    padding: 0.5em 1em;
+  }
+  h1, h2, h3 {
+    font-size: 1.2em;
+  }
+}
