@@ -219,7 +219,7 @@ export default function App() {
       </div>
 
       <div className="rotation">
-        <img src="../public/arrow.png"></img>
+        <img src="/arrow.png"></img>
       </div>
 
     </div>
